@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:16
+    container_name: dbvrental
+    environment:
+      POSTGRES_PASSWORD: "ed4325fd"
+    volumes:
+      - "./data:/docker-entrypoint-initdb.d:rw"
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: netstat -tnl | grep :5432
+      interval: 1s
+      retries: 5
+
+  app:
+    build: ./app/backend
+    depends_on:
+      - db
+    environment:
+      APP_HOST: "db"
+      APP_USER: "gorm"
+      APP_PASSWORD: "gorm"
+    ports:
+      - "8080:8080"
+
