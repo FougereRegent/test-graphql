@@ -50,7 +50,7 @@ var customerType = graphql.NewObject(graphql.ObjectConfig{
 
 func getCustomer(p graphql.ResolveParams) (interface{}, error) {
 	id, ok := p.Args["id"].(int)
-	if !ok {
+	if ok {
 		return nil, errors.New("Bad format")
 	}
 	u := query.Use(db).Customer
